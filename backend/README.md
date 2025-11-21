@@ -27,6 +27,12 @@ npm i -g @nestjs/cli
 
 4. Levanta la base de datos (se requiere tener Podman instalado):
 ```zsh
+# Inicializar la máquina virtual (Solo la primera vez)
+podman machine init
+
+# Arrancar el servicio (Necesario si reinicias el Mac)
+podman machine start
+
 podman-compose up -d
 ```
 
