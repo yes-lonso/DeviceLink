@@ -9,13 +9,13 @@ Este proyecto es un backend construido con [NestJS](https://nestjs.com/).
 
 # Ejecutar en desarrollo
 
-1. Clonar el repositorio y entra en el directorio del backend:
+1. Clonar el repositorio y entrar en el directorio del backend:
 ```zsh
 git clone https://github.com/yes-lonso/DeviceLink.git
 cd DeviceLink/backend
 ```
 
-2. Instala las dependencias:
+2. Instalar las dependencias:
 ```zsh
 npm install
 ```
@@ -30,13 +30,13 @@ npm i -g @nestjs/cli
 # Inicializar la máquina virtual (Solo la primera vez)
 podman machine init
 
-# Arrancar el servicio (Necesario si reinicias el Mac)
+# Arrancar el servicio (Necesario si se reinicia el Mac)
 podman machine start
 
 podman-compose up -d
 ```
 
-5. Ejecuta el siguiente comando para iniciar el servidor en modo de desarrollo:
+5. Ejecutar el siguiente comando para iniciar el servidor en modo de desarrollo:
 ```zsh
 npm run start:dev
 ```
