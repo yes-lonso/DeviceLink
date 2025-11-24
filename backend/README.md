@@ -5,17 +5,36 @@ Este proyecto es un backend construido con [NestJS](https://nestjs.com/).
 ## Requisitos previos
 
 * Tener instalado [Node.js](https://nodejs.org/) (v16 o superior)
-
+* Inicializar la máquina virtual (Solo la primera vez)
+```zsh
+podman machine init
+```
+* Arrancar el servicio (Necesario si se reinicia el Mac)
+```zsh
+podman machine start
+```
+* Desplegar el contenedor
+```zsh
+podman run -d \
+  --name devicelinkDB \
+  -p 27017:27017 \
+  docker.io/mongodb/mongodb-community-server:latest
+```
+* Comandos útiles
+Parar la BD: ```podman stop devicelinkDB```
+Arrancar la BD: ```podman start devicelinkDB```
+Ver logs: ```podman logs -f devicelinkDB```
+Borrar contenedor: ```podman rm devicelinkDB```
 
 # Ejecutar en desarrollo
 
-1. Clonar el repositorio y entra en el directorio del backend:
+1. Clonar el repositorio y entrar en el directorio del backend:
 ```zsh
 git clone https://github.com/yes-lonso/DeviceLink.git
 cd DeviceLink/backend
 ```
 
-2. Instala las dependencias:
+2. Instalar las dependencias:
 ```zsh
 npm install
 ```
@@ -30,7 +49,7 @@ npm i -g @nestjs/cli
 podman-compose up -d
 ```
 
-5. Ejecuta el siguiente comando para iniciar el servidor en modo de desarrollo:
+5. Ejecutar el siguiente comando para iniciar el servidor en modo de desarrollo:
 ```zsh
 npm run start:dev
 ```
