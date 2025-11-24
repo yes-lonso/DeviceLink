@@ -1,0 +1,24 @@
+<diagram program="umletino" version="15.1"><zoom_level>8</zoom_level><element><id>UMLFrame</id><coordinates><x>96</x><y>152</y><w>760</w><h>480</h></coordinates><panel_attributes>DeviceLink - Gestionar Incidencia</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLActor</id><coordinates><x>8</x><y>408</y><w>48</w><h>88</h></coordinates><panel_attributes>Usuario</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>152</x><y>408</y><w>176</w><h>72</h></coordinates><panel_attributes>Crear Incidencia</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>48</x><y>424</y><w>120</w><h>32</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;130;20</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>432</x><y>280</y><w>144</w><h>48</h></coordinates><panel_attributes>Visualizar Equipos 
+del Municipio</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>304</y><w>128</w><h>160</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;include&gt;&gt;</panel_attributes><additional_attributes>140;15;10;180</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>440</x><y>344</y><w>136</w><h>48</h></coordinates><panel_attributes>Seleccionar Equipo</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>368</y><w>136</w><h>96</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;include&gt;&gt;</panel_attributes><additional_attributes>150;15;10;100</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>448</x><y>416</y><w>136</w><h>40</h></coordinates><panel_attributes>Rellenar Formulario 
+de Incidencia</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>432</y><w>144</w><h>32</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;include&gt;&gt;</panel_attributes><additional_attributes>160;18;10;20</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>448</x><y>472</y><w>136</w><h>40</h></coordinates><panel_attributes>Registrar Incidencia</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>320</x><y>440</y><w>144</w><h>72</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;include&gt;&gt;</panel_attributes><additional_attributes>160;70;10;10</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>544</x><y>560</y><w>136</w><h>40</h></coordinates><panel_attributes>Enviar Notificación 
+por Email</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>536</x><y>504</y><w>88</w><h>72</h></coordinates><panel_attributes>lt=&gt;.&gt;
+&lt;&lt;extend&gt;&gt;</panel_attributes><additional_attributes>98;70;18;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>112</x><y>192</y><w>392</w><h>56</h></coordinates><panel_attributes>Precondiciones:
+- El equipo del usuario debe estar registrado y enrolado en un municipio.
+- El usuario debe tener acceso al Módulo de Equipos.
+bg=yellow
+fontsize=14
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>264</x><y>240</y><w>24</w><h>184</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;210;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>624</x><y>328</y><w>216</w><h>96</h></coordinates><panel_attributes>Escenario Alternativo:
+Error de Selección:
+Si el usuario intenta generar una 
+incidencia sin seleccionar previamente 
+un equipo, el sistema no permite el 
+acceso al formulario o lo rechaza.
+bg=red
+fontsize=14
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>568</x><y>360</y><w>72</w><h>32</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;15;70;20</additional_attributes></element><element><id>Relation</id><coordinates><x>424</x><y>504</y><w>72</w><h>72</h></coordinates><panel_attributes>lt=&gt;.&gt;
+&lt;&lt;extend&gt;&gt;</panel_attributes><additional_attributes>18;70;78;10</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>360</x><y>560</y><w>136</w><h>40</h></coordinates><panel_attributes>Imprimir Informe 
+en PDF</panel_attributes><additional_attributes></additional_attributes></element></diagram>

@@ -1,0 +1,29 @@
+<diagram program="umletino" version="15.1"><zoom_level>7</zoom_level><element><id>UMLFrame</id><coordinates><x>84</x><y>168</y><w>700</w><h>511</h></coordinates><panel_attributes>DeviceLink - Enrolar Equipo</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLActor</id><coordinates><x>0</x><y>385</y><w>42</w><h>77</h></coordinates><panel_attributes>Usuario</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>189</x><y>399</y><w>154</w><h>56</h></coordinates><panel_attributes>Enrolar Equipo</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>35</x><y>406</y><w>168</w><h>35</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;220;30</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>497</x><y>287</y><w>133</w><h>49</h></coordinates><panel_attributes>Verificar Estado del Equipo</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>336</x><y>308</y><w>175</w><h>133</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;include&gt;&gt;</panel_attributes><additional_attributes>230;10;10;170</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>504</x><y>357</y><w>133</w><h>49</h></coordinates><panel_attributes>Registrar Municipio</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>336</x><y>385</y><w>182</w><h>56</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;include&gt;&gt;</panel_attributes><additional_attributes>240;10;10;60</additional_attributes></element><element><id>Relation</id><coordinates><x>336</x><y>420</y><w>182</w><h>42</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;include&gt;&gt;</panel_attributes><additional_attributes>240;40;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>336</x><y>420</y><w>182</w><h>119</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;include&gt;&gt;</panel_attributes><additional_attributes>240;150;10;10</additional_attributes></element><element><id>UMLNote</id><coordinates><x>98</x><y>245</y><w>280</w><h>91</h></coordinates><panel_attributes>Precondiciones:
+- El equipo que realiza la petición (su IP), debe existir en el sistema.
+- El token (IP) que acompaña la petición debe coincidir con 
+  la IP real del equipo.
+- El equipo no debe tener registrado el municipio donde 
+  se encuentra ubicado.
+bg=yellow
+fontsize=14
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>252</x><y>329</y><w>21</w><h>84</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;100;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>476</x><y>238</y><w>77</w><h>63</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;extend&gt;&gt;</panel_attributes><additional_attributes>90;70;10;17</additional_attributes></element><element><id>UMLActor</id><coordinates><x>805</x><y>189</y><w>70</w><h>77</h></coordinates><panel_attributes>Administrador</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>644</x><y>203</y><w>112</w><h>42</h></coordinates><panel_attributes>Iniciar Sesión</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>602</x><y>231</y><w>84</w><h>77</h></coordinates><panel_attributes>lt=&lt;.&lt;
+&lt;&lt;extend&gt;&gt;</panel_attributes><additional_attributes>13;90;100;17</additional_attributes></element><element><id>Relation</id><coordinates><x>749</x><y>203</y><w>84</w><h>28</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;20;100;20</additional_attributes></element><element><id>UMLNote</id><coordinates><x>98</x><y>532</y><w>336</w><h>126</h></coordinates><panel_attributes>Escenarios Alternativos:
+- Si la IP del equipo que realiza la petición no existe, 
+  el sistema reporta una excepción y presenta una interfaz 
+  de error de infraestructura.
+- Si el token (IP) del equipo que realiza la petición no coincide 
+  con la IP del equipo que realiza la petición, el sistema presentará 
+  al usuario una interfaz de enrolamiento del equipo.
+- Si el equipo ya se encuentra enrolado, devuelve una consulta con 
+  los equipos registrados en el municipio donde se encuentra enrolado
+  el equipo.
+bg=red
+fontsize=14
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>252</x><y>448</y><w>21</w><h>98</h></coordinates><panel_attributes>lt=.</panel_attributes><additional_attributes>10;10;10;120</additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>504</x><y>427</y><w>133</w><h>49</h></coordinates><panel_attributes>Consultar equipos 
+dek Municipio</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>504</x><y>497</y><w>133</w><h>49</h></coordinates><panel_attributes>Generar Token</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>392</x><y>203</y><w>133</w><h>49</h></coordinates><panel_attributes>Mostrar error
+de infraestructura</panel_attributes><additional_attributes></additional_attributes></element></diagram>

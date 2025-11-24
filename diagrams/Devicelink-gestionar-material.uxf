@@ -1,0 +1,19 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><element><id>UMLFrame</id><coordinates><x>120</x><y>80</y><w>500</w><h>360</h></coordinates><panel_attributes>DeviceLink: Gestión de Material</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLActor</id><coordinates><x>0</x><y>230</y><w>80</w><h>120</h></coordinates><panel_attributes>Gestor de
+Material</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>170</x><y>130</y><w>120</w><h>40</h></coordinates><panel_attributes>Crear Material</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>170</x><y>210</y><w>130</w><h>40</h></coordinates><panel_attributes>Consultar Material</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>170</x><y>290</y><w>130</w><h>40</h></coordinates><panel_attributes>Actualizar Material</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>170</x><y>370</y><w>120</w><h>40</h></coordinates><panel_attributes>Eliminar Material</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>70</x><y>140</y><w>120</w><h>130</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;110;100;10</additional_attributes></element><element><id>Relation</id><coordinates><x>70</x><y>220</y><w>120</w><h>50</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;30;100;20</additional_attributes></element><element><id>Relation</id><coordinates><x>70</x><y>260</y><w>120</w><h>70</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;100;50</additional_attributes></element><element><id>Relation</id><coordinates><x>70</x><y>260</y><w>120</w><h>150</h></coordinates><panel_attributes></panel_attributes><additional_attributes>10;10;100;130</additional_attributes></element><element><id>UMLNote</id><coordinates><x>430</x><y>130</y><w>170</w><h>200</h></coordinates><panel_attributes>Cada material tiene 
+un tipo y un subtipo.
+--
+Ejemplo:
+- Tipo: PC
+  - Subtipo: Sobremesa
+  - Subtipo: Portátil
+- Tipo: Monitor
+  - Subtipo: IPS
+  - Subtipo: OLED
+- Tipo: Teclado
+  - Subtipo: Mecánico
+  - Subtipo: Membrana
+bg=blue</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLUseCase</id><coordinates><x>360</x><y>360</y><w>140</w><h>40</h></coordinates><panel_attributes>Comprobar Permisos</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>150</y><w>130</w><h>240</h></coordinates><panel_attributes>lt=&gt;.&gt;
+&lt;&lt;includes&gt;&gt;</panel_attributes><additional_attributes>90;220;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>230</y><w>130</w><h>160</h></coordinates><panel_attributes>lt=&gt;.&gt;
+&lt;&lt;includes&gt;&gt;</panel_attributes><additional_attributes>90;140;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>290</x><y>310</y><w>100</w><h>80</h></coordinates><panel_attributes>lt=&gt;.&gt;
+&lt;&lt;includes&gt;&gt;</panel_attributes><additional_attributes>80;60;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>280</x><y>360</y><w>110</w><h>50</h></coordinates><panel_attributes>lt=&gt;.&gt;
+&lt;&lt;includes&gt;&gt;</panel_attributes><additional_attributes>90;10;10;30</additional_attributes></element></diagram>

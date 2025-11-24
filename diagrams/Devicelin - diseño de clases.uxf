@@ -1,0 +1,83 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><help_text>
+</help_text><element><id>UMLClass</id><coordinates><x>640</x><y>190</y><w>190</w><h>200</h></coordinates><panel_attributes>Red
+--
+- nombre: string
+- direccion_red: string
+- gateway: string
+- mascara_subred: string
+- dns_primario: string | null
+- dns_secundario: string | null
+- ipFirstNum: number
+- ipEndNum: number
+- ipInicioNum: number
+--
++ coleccion: "redes"
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>470</y><w>190</w><h>60</h></coordinates><panel_attributes>Material
+--
+- tipo: String
+- subtipo: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>460</y><w>160</w><h>90</h></coordinates><panel_attributes>Incidencia
+--
+- descripcion: String
+- estado: EstadoIncidencia
+--
++ coleccion: "incidencias"</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>40</x><y>190</y><w>150</w><h>80</h></coordinates><panel_attributes>Municipio
+--
+- codigo: Number
+- nombre: String
+--
++ coleccion: "municipios"
+ </panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>330</x><y>190</y><w>180</w><h>90</h></coordinates><panel_attributes>Sede
+--
+- principal: Boolean
+- contacto: Contacto
+--
+ coleccion: "sedes"</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>330</x><y>460</y><w>180</w><h>150</h></coordinates><panel_attributes>Equipo
+--
+- ip: string
+- ipNum: number
+- estado: EstadoIP
+- serial: string
+- mac: string
+- comentario: string
+--
++ collection: 'equipos'
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>180</x><y>180</y><w>170</w><h>50</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;
+m1=1
+m2=1
+&lt; ubicada en</panel_attributes><additional_attributes>150;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>500</x><y>180</y><w>160</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+configura una &gt;</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>340</x><y>0</y><w>170</w><h>80</h></coordinates><panel_attributes>Empresa
+--
+- contacto: Contacto</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>70</y><w>110</w><h>140</h></coordinates><panel_attributes>lt=-&gt;&gt;&gt;&gt;
+m1=1..n
+m2=1
+&lt; pertenece a</panel_attributes><additional_attributes>10;120;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>500</x><y>460</y><w>160</w><h>50</h></coordinates><panel_attributes>lt=-
+m1=1
+m2=1
+describe un &gt;</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>Relation</id><coordinates><x>410</x><y>270</y><w>90</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;-
+m1=0..n
+m2=1
+contiene &gt;</panel_attributes><additional_attributes>10;190;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>450</y><w>160</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-
+m1=1
+m2=0--n
+asignada a &gt;</panel_attributes><additional_attributes>140;20;10;20</additional_attributes></element><element><id>UMLClass</id><coordinates><x>640</x><y>560</y><w>190</w><h>90</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+EstadoIP
+--
+- DISPONIBLE
+- ASIGNADA
+- RESERVADA
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>500</x><y>510</y><w>160</w><h>90</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>140;70;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>200</x><y>580</y><w>110</w><h>90</h></coordinates><panel_attributes>&lt;&lt;enumeration&gt;&gt;
+EstadoIncidencia
+--
+- ENTREGADA
+- ABIERTA
+- FINALIZADA
+
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>190</x><y>500</y><w>90</w><h>100</h></coordinates><panel_attributes>lt=&lt;.</panel_attributes><additional_attributes>70;80;10;10</additional_attributes></element><element><id>UMLClass</id><coordinates><x>650</x><y>0</y><w>200</w><h>90</h></coordinates><panel_attributes>Contacto
+--
+- nombre: String
+- direccion: String
+- email: String
+- telefono: String</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>500</x><y>0</y><w>170</w><h>50</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;30;150;10</additional_attributes></element><element><id>Relation</id><coordinates><x>480</x><y>0</y><w>190</w><h>210</h></coordinates><panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes><additional_attributes>10;190;170;10</additional_attributes></element></diagram>
