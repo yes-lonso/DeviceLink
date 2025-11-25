@@ -2,9 +2,18 @@
 const routes = [
   {
     path: '/',
-    component: () => import('layouts/MainLayout.vue'),
+    component: () => import('layouts/PanelPrincipal.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
+      { path: '', redirect: '/admin/dashboard' }, // Redirección inicial
+      // Administración
+      { path: 'admin/dashboard', component: () => import('pages/admin/DashboardPage.vue') },
+      { path: 'admin/usuarios', component: () => import('pages/admin/UsuariosPage.vue') },
+      // Infraestructura
+      { path: 'infra/municipios', component: () => import('pages/infra/MunicipiosPage.vue') },
+      { path: 'infra/sedes', component: () => import('pages/infra/SedesPage.vue') },
+      { path: 'infra/redes', component: () => import('pages/infra/RedesPage.vue') },
+      // Material
+      { path: 'material/equipos', component: () => import('pages/material/EquiposPage.vue') }
     ]
   },
 
