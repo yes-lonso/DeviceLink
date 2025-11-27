@@ -59,6 +59,4 @@ npm run start:dev
 * MongoDB
 * Nest
 
-* ### Video del proyecto
-* [Click para ver el video] (https://github.com/yes-lonso/DeviceLink/blob/sprint-0/media/Video%20avance%20Iteracion%201%20480.mov)
-* 
+
