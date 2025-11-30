@@ -1,0 +1,28 @@
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb-devicelink
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    volumes:
+      - mongodb_data:/data/db
+
+  mongoku:
+    image: huggingface/mongoku
+    container_name: mongoku-devicelink
+    restart: always
+    ports:
+      - "3101:3100"
+    environment:
+      MONGOKU_DEFAULT_HOST: mongodb://${MONGO_USER}:${MONGO_PASSWORD}@mongodb:27017
+      MONGOKU_SERVER_PORT: 3100
+      MONGOKU_SERVER_ORIGIN: ${MONGOKU_SERVER_ORIGIN}
+    depends_on:
+      - mongodb
+
+volumes:
+  mongodb_data:

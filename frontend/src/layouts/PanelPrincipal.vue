@@ -12,10 +12,9 @@
         />
 
         <q-toolbar-title>
-          DeviceLink
+          {{ description }}
         </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+       
       </q-toolbar>
     </q-header>
 
@@ -34,16 +33,16 @@
           icon="admin_panel_settings"
           label="Administración"
           :content-inset-level="0.5"
-          default-opened
+          v-model="adminOpen"
         >
-          <q-item clickable v-ripple to="/admin/dashboard" active-class="text-primary">
+          <q-item clickable v-ripple to="/admin/dashboard" active-class="bg-primary text-white">
             <q-item-section avatar>
               <q-icon name="dashboard" />
             </q-item-section>
             <q-item-section>Dashboard</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/admin/usuarios" active-class="text-primary">
+          <q-item clickable v-ripple to="/admin/usuarios" active-class="bg-primary text-white">
             <q-item-section avatar>
               <q-icon name="people" />
             </q-item-section>
@@ -56,22 +55,23 @@
           icon="domain"
           label="Infraestructura"
           :content-inset-level="0.5"
+          v-model="infraOpen"
         >
-          <q-item clickable v-ripple to="/infra/municipios" active-class="text-primary">
+          <q-item clickable v-ripple to="/infra/municipios" active-class="bg-primary text-white">
             <q-item-section avatar>
               <q-icon name="location_city" />
             </q-item-section>
             <q-item-section>Municipios</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/infra/sedes" active-class="text-primary">
+          <q-item clickable v-ripple to="/infra/sedes" active-class="bg-primary text-white">
             <q-item-section avatar>
               <q-icon name="business" />
             </q-item-section>
             <q-item-section>Sedes</q-item-section>
           </q-item>
 
-          <q-item clickable v-ripple to="/infra/redes" active-class="text-primary">
+          <q-item clickable v-ripple to="/infra/redes" active-class="bg-primary text-white">
             <q-item-section avatar>
               <q-icon name="lan" />
             </q-item-section>
@@ -84,8 +84,9 @@
           icon="devices"
           label="Material"
           :content-inset-level="0.5"
+          v-model="materialOpen"
         >
-          <q-item clickable v-ripple to="/material/equipos" active-class="text-primary">
+          <q-item clickable v-ripple to="/material/equipos" active-class="bg-primary text-white">
             <q-item-section avatar>
               <q-icon name="computer" />
             </q-item-section>
@@ -103,15 +104,29 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRoute } from 'vue-router'
+import pkg from '../../package.json'
 
 defineOptions({
   name: 'PanelPrincipal'
 })
 
 const leftDrawerOpen = ref(false)
+const route = useRoute()
+const description = pkg.description
+
+const adminOpen = ref(false)
+const infraOpen = ref(false)
+const materialOpen = ref(false)
 
 function toggleLeftDrawer () {
   leftDrawerOpen.value = !leftDrawerOpen.value
 }
+
+watch(() => route.path, (path) => {
+  if (path.startsWith('/admin')) adminOpen.value = true
+  if (path.startsWith('/infra')) infraOpen.value = true
+  if (path.startsWith('/material')) materialOpen.value = true
+}, { immediate: true })
 </script>
