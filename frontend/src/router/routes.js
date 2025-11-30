@@ -9,7 +9,7 @@ const routes = [
       { path: 'admin/dashboard', component: () => import('pages/admin/DashboardPage.vue') },
       { path: 'admin/usuarios', component: () => import('pages/admin/UsuariosPage.vue') },
       // Infraestructura
-      { path: 'infra/municipios', component: () => import('pages/infra/MunicipiosPage.vue') },
+      { path: 'infra/municipios', component: () => import('src/pages/infra/municipios/municipios.page.vue') },
       { path: 'infra/sedes', component: () => import('pages/infra/SedesPage.vue') },
       { path: 'infra/redes', component: () => import('pages/infra/RedesPage.vue') },
       // Material
