@@ -1,7 +1,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { QTableProps } from 'quasar';
 import { Action } from 'components/VistaTabla/types';
-import { MunicipiosService } from './municipios.api';
+import { ApiMunicipios } from './api.municipios';
 
 
 // composable para manejo de la lógica de la página de municipios
@@ -25,8 +25,9 @@ export function useMunicipios() {
 
     const columns: QTableProps['columns'] = [
         { name: 'id', align: 'left', label: 'ID', field: 'id', sortable: true },
-        { name: 'nombre', align: 'left', label: 'Nombre', field: 'nombre', sortable: true },
         { name: 'codigo', align: 'left', label: 'Código', field: 'codigo', sortable: true },
+        { name: 'nombre', align: 'left', label: 'Nombre', field: 'nombre', sortable: true },
+        { name: 'provincia', align: 'left', label: 'Provincia', field: "provincia", sortable: true },
     ];
 
     const onSubirMunicipios = () => {
@@ -47,10 +48,10 @@ export function useMunicipios() {
 
             try {
                 loading.value = true;
-                await MunicipiosService.uploadMunicipios(file);
+                await ApiMunicipios.actualizarMunicipiosDesdeArchivo(file);
                 console.log('Archivo subido correctamente');
 
-                await loadProvincias();
+                await getProvincias();
             } catch (error) {
                 console.error('Error al subir el archivo:', error);
             } finally {
@@ -68,7 +69,7 @@ export function useMunicipios() {
         try {
             // Borrar la provincia seleccionada al buscar globalmente
             provinciaSeleccionada.value = null;
-            const resultados = await MunicipiosService.buscarMunicipios(val);
+            const resultados = await ApiMunicipios.buscarMunicipios(val);
             rows.value = resultados;
         } catch (error) {
             console.error('Error al buscar municipios:', error);
@@ -91,13 +92,13 @@ export function useMunicipios() {
             inputConfig: {
                 style: 'width: 200px',
             },
+            minLength: 2,
         },
         {
             type: 'input',
             disabled: !hayProvincias.value,
             placeholder: 'Código',
             value: codigoBusqueda.value,
-
             handler: (val: string) => {
                 console.log('Buscar por código:', val);
                 onBuscarMunicipios(val);
@@ -105,6 +106,7 @@ export function useMunicipios() {
             inputConfig: {
                 style: 'width: 150px',
             },
+            minLength: 2,
         },
         {
             type: 'select',
@@ -118,7 +120,7 @@ export function useMunicipios() {
                 if (val) {
                     loading.value = true;
                     try {
-                        const municipios = await MunicipiosService.getMunicipios(val.value);
+                        const municipios = await ApiMunicipios.consultarMunicipios(val.value);
                         rows.value = municipios;
                     } catch (error) {
                         console.error('Error al cargar municipios:', error);
@@ -135,7 +137,8 @@ export function useMunicipios() {
             label: 'Cargar Municipios',
             icon: 'cloud_upload',
             color: 'primary',
-            flat: true,
+            flat: false,
+            outline: true,
             handler: onSubirMunicipios,
         },
 
@@ -152,17 +155,17 @@ export function useMunicipios() {
         provinciaSeleccionada.value = null;
     };
 
-    const loadProvincias = async () => {
+    const getProvincias = async () => {
         try {
-            const listaProvincias = await MunicipiosService.getProvincias();
-            provincias.value = listaProvincias.map(p => ({ label: p.nombre, value: p.codigo }));
+            const listaProvincias = await ApiMunicipios.consultarProvincias();
+            provincias.value = listaProvincias.map(p => ({ label: p.nombre, value: p.id }));
         } catch (error) {
             console.error('Error al cargar provincias:', error);
         }
     };
 
     onMounted(() => {
-        loadProvincias();
+        getProvincias();
     });
 
     return {

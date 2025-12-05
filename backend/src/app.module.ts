@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { MunicipiosModule } from './municipios/municipios.module';
+import { SedesModule } from './sedes/sedes.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
@@ -18,7 +19,8 @@ import { MongooseModule } from '@nestjs/mongoose';
       }),
       inject: [ConfigService],
     }),
-    MunicipiosModule
+    MunicipiosModule,
+    SedesModule
   ],
   controllers: [AppController],
   providers: [AppService],

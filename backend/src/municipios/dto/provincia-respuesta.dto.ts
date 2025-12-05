@@ -1,18 +1,14 @@
-import { Expose, Transform, Type } from 'class-transformer';
-import { MunicipioRespuestaDto } from './municipio-respuesta.dto';
+import { Transform } from 'class-transformer';
+import { Expose } from 'class-transformer';
 
 export class ProvinciaRespuestaDto {
-    @Expose()
-    @Transform(({ obj }) => obj._id?.toString())
-    id: string;
+   @Expose()
+   @Transform(({ obj }) => obj._id?.toString())
+   id: string;
 
-    @Expose()
-    nombre: string;
+   @Expose()
+   nombre: string;
 
-    @Expose()
-    codigo: string;
-
-    @Expose()
-    @Type(() => MunicipioRespuestaDto)
-    municipios: MunicipioRespuestaDto[];
+   @Expose()
+   codigo: string;
 }

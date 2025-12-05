@@ -15,7 +15,7 @@
 
 <script setup lang="ts">
 import VistaTabla from 'components/VistaTabla/VistaTabla.vue';
-import { useMunicipios } from './municipios.setup';
+import { useMunicipios } from './setup.municipios';
 
 const {
   rows,

@@ -86,6 +86,13 @@
           :content-inset-level="0.5"
           v-model="materialOpen"
         >
+        <q-item clickable v-ripple to="/material/tipos" active-class="bg-primary text-white">
+            <q-item-section avatar>
+              <q-icon name="computer" />
+            </q-item-section>
+            <q-item-section>Tipos de Material</q-item-section>
+          </q-item>
+
           <q-item clickable v-ripple to="/material/equipos" active-class="bg-primary text-white">
             <q-item-section avatar>
               <q-icon name="computer" />

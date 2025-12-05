@@ -1,137 +1,179 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import * as XLSX from 'xlsx';
 import { plainToInstance } from 'class-transformer';
 import { Provincia, ProvinciaDocument } from './schemas/provincia.schema';
+import { Municipio, MunicipioDocument } from './schemas/municipio.schema';
 import { BusquedaMunicipioDto } from './dto/busqueda-municipio.dto';
 import { MunicipioRespuestaDto } from './dto/municipio-respuesta.dto';
 import { ProvinciaRespuestaDto } from './dto/provincia-respuesta.dto';
 
 @Injectable()
 export class MunicipiosService {
-    constructor(@InjectModel(Provincia.name) private provinciaModel: Model<ProvinciaDocument>) { }
+   constructor(
+      @InjectModel(Provincia.name) private provinciaModel: Model<ProvinciaDocument>,
+      @InjectModel(Municipio.name) private municipioModel: Model<MunicipioDocument>,
+   ) {}
 
-    async subirMunicipios(file: Express.Multer.File) {
-        const workbook = XLSX.read(file.buffer, { type: 'buffer' });
-        const operations: any[] = [];
-        let totalMunicipios = 0;
+   async subirMunicipios(file: Express.Multer.File) {
+      const workbook = XLSX.read(file.buffer, { type: 'buffer' });
+      const provinciaOps: any[] = [];
+      const municipioOps: any[] = [];
+      let totalMunicipios = 0;
 
-        console.log(`Procesando ${workbook.SheetNames.length} pestañas...`);
+      console.log(`Procesando ${workbook.SheetNames.length} pestañas...`);
 
-        for (const sheetName of workbook.SheetNames) {
-            const sheet = workbook.Sheets[sheetName];
+      for (const sheetName of workbook.SheetNames) {
+         const sheet = workbook.Sheets[sheetName];
+         const rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as any[][];
+         const provinciaNombre = rawRows[1] ? rawRows[1][0] : sheetName;
+         const headerRowIndex = rawRows.findIndex((row) => row && row.includes('CPRO'));
 
-            // Obtener el nombre de la provincia de la fila 1 (índice 1)            
-            const rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as any[][];
+         if (headerRowIndex === -1) {
+            console.warn(`No se encontró la cabecera CPRO en la pestaña ${sheetName}, saltando...`);
+            continue;
+         }
 
-            // Suponemos que la fila 1 contiene el nombre de la provincia en la primera celda            
-            const provinciaNombre = rawRows[1] ? rawRows[1][0] : sheetName;
+         const data = XLSX.utils.sheet_to_json(sheet, { range: headerRowIndex });
+         const municipios = data
+            .map((row: any) => {
+               if (!row.CPRO || !row.CMUN) return null;
+               const cpro = String(row.CPRO).padStart(2, '0');
+               const cmun = String(row.CMUN).padStart(3, '0');
+               return {
+                  codigo: cpro + cmun,
+                  nombre: row.NOMBRE,
+                  provincia: provinciaNombre, // Guardamos el nombre de la provincia directamente
+               };
+            })
+            .filter((m) => m !== null);
 
-            // Buscamos la fila con la cabecera CPRO
-            const headerRowIndex = rawRows.findIndex(row => row && row.includes('CPRO'));
+         if (municipios.length === 0) continue;
 
-            if (headerRowIndex === -1) {
-                console.warn(`No se encontró la cabecera CPRO en la pestaña ${sheetName}, saltando...`);
-                continue;
-            }
+         const provinciaCodigo = String(data[0]['CPRO']).padStart(2, '0');
 
-            // Obtenemos los municipios
-            const data = XLSX.utils.sheet_to_json(sheet, { range: headerRowIndex });
+         // Operación para Provincia
+         provinciaOps.push({
+            updateOne: {
+               filter: { codigo: provinciaCodigo },
+               update: {
+                  $set: {
+                     codigo: provinciaCodigo,
+                     nombre: provinciaNombre,
+                  },
+               },
+               upsert: true,
+            },
+         });
 
-            const municipios = data.map((row: any) => {
-                if (!row.CPRO || !row.CMUN) return null;
+         // Operaciones para Municipios se harán después de guardar provincias
+         // para asegurar que tenemos los IDs
 
-                const cpro = String(row.CPRO).padStart(2, '0');
-                const cmun = String(row.CMUN).padStart(3, '0');
+         totalMunicipios += municipios.length;
+      }
 
-                return {
-                    codigo: cpro + cmun,
-                    nombre: row.NOMBRE,
-                    provincia: cpro
-                };
-            }).filter(m => m !== null);
+      console.log(`Guardando ${provinciaOps.length} provincias...`);
 
-            if (municipios.length === 0) continue;
+      if (provinciaOps.length > 0) {
+         await this.provinciaModel.bulkWrite(provinciaOps);
+      }
 
-            // Operación de creación por cada provincia
-            // Se usa el CPRO del primer municipio como código de provincia
-            const provinciaCodigo = municipios[0].provincia;
+      // Recuperar todas las provincias para mapear código -> _id
+      const provincias = await this.provinciaModel.find().lean().exec();
+      const provinciaMap = new Map(provincias.map((p) => [p.codigo, p._id]));
 
-            operations.push({
-                updateOne: {
-                    filter: { codigo: provinciaCodigo },
-                    update: {
-                        $set: {
-                            codigo: provinciaCodigo,
-                            nombre: provinciaNombre,
-                            municipios: municipios
-                        }
-                    },
-                    upsert: true
-                }
+      console.log(`Procesando municipios con mapa de ${provinciaMap.size} provincias...`);
+
+      // Re-procesar para crear operaciones de municipios con ID de provincia
+      for (const sheetName of workbook.SheetNames) {
+         const sheet = workbook.Sheets[sheetName];
+         const rawRows = XLSX.utils.sheet_to_json(sheet, { header: 1 }) as any[][];
+         const headerRowIndex = rawRows.findIndex((row) => row && row.includes('CPRO'));
+
+         if (headerRowIndex === -1) continue;
+
+         const data = XLSX.utils.sheet_to_json(sheet, { range: headerRowIndex });
+         const provinciaCodigo = String(data[0]['CPRO']).padStart(2, '0');
+         const provinciaId = provinciaMap.get(provinciaCodigo);
+
+         if (!provinciaId) {
+            console.warn(
+               `Provincia con código ${provinciaCodigo} no encontrada en base de datos, saltando municipios...`,
+            );
+            continue;
+         }
+
+         const municipios = data
+            .map((row: any) => {
+               if (!row.CPRO || !row.CMUN) return null;
+               const cpro = String(row.CPRO).padStart(2, '0');
+               const cmun = String(row.CMUN).padStart(3, '0');
+               return {
+                  codigo: cpro + cmun,
+                  nombre: row.NOMBRE,
+                  provincia: provinciaId, // Usamos el ObjectId
+               };
+            })
+            .filter((m) => m !== null);
+
+         municipios.forEach((m) => {
+            municipioOps.push({
+               updateOne: {
+                  filter: { codigo: m.codigo },
+                  update: { $set: m },
+                  upsert: true,
+               },
             });
+         });
 
-            totalMunicipios += municipios.length;
-        }
+         totalMunicipios += municipios.length;
+      }
 
-        console.log(`Guardando ${operations.length} provincias con un total de ${totalMunicipios} municipios...`);
+      console.log(`Guardando ${municipioOps.length} municipios...`);
 
-        if (operations.length > 0) {
-            await this.provinciaModel.bulkWrite(operations);
-        }
+      if (municipioOps.length > 0) {
+         await this.municipioModel.bulkWrite(municipioOps);
+      }
 
-        return { message: 'Archivo procesado correctamente', count: totalMunicipios };
-    }
+      return { message: 'Archivo procesado correctamente', count: totalMunicipios };
+   }
 
-    async buscarProvincias(): Promise<ProvinciaRespuestaDto[]> {
-        const provincias = await this.provinciaModel.find().select({ municipios: 0 }).sort({ codigo: 1 }).lean().exec();
-        return plainToInstance(ProvinciaRespuestaDto, provincias, {
-            excludeExtraneousValues: true,
-        });
-    }
+   async buscarProvincias(): Promise<ProvinciaRespuestaDto[]> {
+      const provincias = await this.provinciaModel.find().sort({ codigo: 1 }).lean().exec();
+      return plainToInstance(ProvinciaRespuestaDto, provincias, {
+         excludeExtraneousValues: true,
+      });
+   }
 
-    async buscarProvinciaPorCodigo(codigo: string): Promise<ProvinciaRespuestaDto> {
-        const provincia = await this.provinciaModel.findOne({ codigo }).lean().exec();
-        if (!provincia) return null;
-        return plainToInstance(ProvinciaRespuestaDto, provincia, {
-            excludeExtraneousValues: true,
-        });
-    }
+   async consultarMunicipios(id: string): Promise<MunicipioRespuestaDto[]> {
+      const provincia = new Types.ObjectId(id);
+      const municipios = await this.municipioModel
+         .find({ provincia })
+         .populate('provincia')
+         .lean()
+         .exec();
+      return plainToInstance(MunicipioRespuestaDto, municipios, {
+         excludeExtraneousValues: true,
+      });
+   }
 
-    async buscarMunicipios(busquedaDto: BusquedaMunicipioDto): Promise<MunicipioRespuestaDto[]> {
-        const { valor } = busquedaDto;
-        if (!valor) return [];
+   async buscarMunicipios(busquedaDto: BusquedaMunicipioDto): Promise<MunicipioRespuestaDto[]> {
+      const { valor } = busquedaDto;
+      if (!valor) return [];
 
-        const regex = new RegExp(valor, 'i'); // Expresión regular insensible a mayúsculas/minúsculas
+      const regex = new RegExp(valor, 'i');
 
-        const resultados = await this.provinciaModel.aggregate([
-            // Descomponer el array de municipios para tratar cada uno como un documento
-            { $unwind: '$municipios' },
-            // Filtrar municipios por nombre o código
-            {
-                $match: {
-                    $or: [
-                        { 'municipios.nombre': { $regex: regex } },
-                        { 'municipios.codigo': { $regex: regex } }
-                    ]
-                }
-            },
-            // Proyectar los campos deseados (aplanar la estructura)
-            {
-                $project: {
-                    _id: '$municipios._id',
-                    nombre: '$municipios.nombre',
-                    codigo: '$municipios.codigo',
-                    provincia: '$nombre' // Usar el nombre de la provincia del documento padre
-                }
-            },
-            // imitar resultados para evitar saturar al cliente
-            { $limit: 100 }
-        ]).exec();
+      const resultados = await this.municipioModel
+         .find({
+            $or: [{ nombre: { $regex: regex } }, { codigo: { $regex: regex } }],
+         })
+         .populate('provincia')
+         .lean()
+         .exec();
 
-        return plainToInstance(MunicipioRespuestaDto, resultados, {
-            excludeExtraneousValues: true,
-        });
-    }
+      return plainToInstance(MunicipioRespuestaDto, resultados, {
+         excludeExtraneousValues: true,
+      });
+   }
 }

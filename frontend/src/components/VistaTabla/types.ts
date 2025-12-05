@@ -3,6 +3,7 @@ export interface Action {
     icon?: string;
     color?: string;
     flat?: boolean;
+    outline?: boolean;
     class?: string;
     handler: (val?: any) => void;
     disabled?: boolean;
@@ -14,4 +15,5 @@ export interface Action {
     options?: any[];
     items?: Action[];
     update?: (val: any) => void;
+    minLength?: number;
 }

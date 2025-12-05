@@ -9,6 +9,7 @@
         :title="title"        
         :row-key="rowKey"
         :selected="selected"
+        :row-actions="rowActions"
         @update:selected="$emit('update:selected', $event)"
         @request="onRequest"
         @row-click="onRowClick"
@@ -64,6 +65,10 @@ const props = defineProps({
   rowKey: {
     type: String,
     default: 'id',
+  },
+  rowActions: {
+    type: Array as PropType<Action[]>,
+    default: () => [],
   },
 });
 
